@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Artists (
     BirthDate DATE,
     PhoneNumber CHAR(15),
     GenreID TINYINT UNSIGNED,
-    Nacionality ENUM('ES', 'AR', 'MX','CL','CO','US','OTHER') DEFAULT 'OTHER'
+    Nacionality ENUM('ES', 'AR', 'MX','CL','CO','US','OTHER') DEFAULT 'OTHER',
     
     CONSTRAINT pkArtists PRIMARY KEY (ArtistID),
     CONSTRAINT fkArtistsGenre FOREIGN KEY (GenreID)
