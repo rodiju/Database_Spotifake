@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS Songs (
     CONSTRAINT fkSongAlbum FOREIGN KEY (AlbumID) REFERENCES Albums(AlbumID)
 ) ENGINE=InnoDB;
 
--- 5.3.5 Collaborations (Artist-Song many-to-many)
+-- 5.3.5 Collaborations
 CREATE TABLE IF NOT EXISTS Collaborations (
     ArtistID INT UNSIGNED,
     SongID INT UNSIGNED,
