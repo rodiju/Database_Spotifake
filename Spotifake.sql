@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS Awards (
 ) ENGINE=InnoDB;
 
 
--- Alter tables
+-- 3.7 Alter tables
 ALTER TABLE Albums
 ADD CONSTRAINT fkAlbumArtist 
 FOREIGN KEY (ArtistID) 
@@ -118,7 +118,7 @@ ON DELETE CASCADE;
 
 ALTER TABLE Albums
 ADD CONSTRAINT CheckYear
-CHECK (ReleaseYear > = 1900 AND ReleaseYear <= YEAR(CURDATE()));
+CHECK (ReleaseYear >= 1900 AND ReleaseYear <= 2100);
 -- ==============================
 -- 4. Example Inserts
 -- ==============================
