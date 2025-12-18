@@ -123,32 +123,32 @@ CHECK (ReleaseYear >= 1900 AND ReleaseYear <= 2100);
 -- 5.4. Example Inserts
 -- ==============================
 
--- 5.4.1. Genres
+-- Genres
 INSERT INTO Genres (GenreName, SubGenre) VALUES 
 ('Pop','Dance Pop'),
 ('Rock','Alternative');
 
--- 5.4.2. Artists
+-- Artists
 INSERT INTO Artists (StageName, RealName, BirthDate, PhoneNumber, GenreID) VALUES
 ('Adele','Adele Laurie Blue Adkins','1988-05-05','+441234567890',1),
 ('Coldplay',NULL,'1997-03-10','+44111222333',2);
 
--- 5.4.3. Albums
+-- Albums
 INSERT INTO Albums (Title, ReleaseYear, ArtistID, GenreID, Format) VALUES
 ('25',2015,1,1,'CD,Digital'),
 ('Parachutes',2000,2,2,'CD,Digital');
 
--- 5.4.4. Songs
+-- Songs
 INSERT INTO Songs (Title, GenreID, ReleaseYear, ArtistID, AlbumID) VALUES
 ('Hello',1,2015,1,1),
 ('Yellow',2,2000,2,2);
 
--- 5.4.5. Collaborations
+-- Collaborations
 INSERT INTO Collaborations (ArtistID, SongID, Role) VALUES
 (1,1,'Main'),
 (2,2,'Main');
 
--- 5.4.6. Awards
+-- Awards
 INSERT INTO Awards (PrizeName, AwardYear, AwardType, ArtistID, ExtraInfo) VALUES
 ('Grammy Award',2016,'Artist',1, JSON_OBJECT(
         'Category','Best Pop Vocal Album',
