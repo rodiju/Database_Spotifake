@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS Albums (
     Format SET('CD', 'Vinyl', 'Digital', 'Cassette') NOT NULL DEFAULT 'Digital',
 
     CONSTRAINT pkAlbums PRIMARY KEY (AlbumID),
-    CONSTRAINT fkAlbumGenre FOREIGN KEY (GenreID) REFERENCES Genres(GenreID),
-    CONSTRAINT fkAlbumArtist FOREIGN KEY (ArtistID) REFERENCES Artists(ArtistID)
+    CONSTRAINT fkAlbumGenre FOREIGN KEY (GenreID) REFERENCES Genres(GenreID)
+    
 ) ENGINE=InnoDB;
 
 -- 3.4 Songs
@@ -108,6 +108,17 @@ CREATE TABLE IF NOT EXISTS Awards (
     )
 ) ENGINE=InnoDB;
 
+
+-- Alter tables
+ALTER TABLE Albums
+ADD CONSTRAINT fkAlbumArtist 
+FOREIGN KEY (ArtistID) 
+REFERENCES Artists(ArtistID)
+ON DELETE CASCADE;
+
+ALTER TABLE Albums
+ADD CONSTRAINT CheckYear
+CHECK (ReleaseYear > = 1900 AND ReleaseYear <= YEAR(CURDATE()));
 -- ==============================
 -- 4. Example Inserts
 -- ==============================
