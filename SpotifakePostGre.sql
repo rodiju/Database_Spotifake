@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS artists CASCADE;
 DROP TABLE IF EXISTS genres CASCADE;
 
 DROP TYPE IF EXISTS nationality_enum;
-DROP TYPE IF EXISTS award_type_enum;
+DROP TYPE IF EXISTS award_type;
 DROP TYPE IF EXISTS collaboration_role_enum;
 
 
@@ -31,7 +31,7 @@ CREATE TYPE nationality_enum AS ENUM (
     'ES', 'AR', 'MX', 'CL', 'CO', 'US', 'OTHER'
 );
 
-CREATE TYPE award_type_enum AS ENUM (
+CREATE TYPE award_type AS ENUM (
     'Artist', 'Song', 'Collaboration'
 );
 
@@ -39,6 +39,7 @@ CREATE TYPE collaboration_role_enum AS ENUM (
     'Main', 'Featured'
 );
 
+ALTER TYPE award_type ADD VALUE 'Album';
 
 -- ==============================
 -- 4.3. Create Tables
@@ -134,27 +135,32 @@ CREATE TABLE collaborations (
 
 -- 4.6 Awards
 CREATE TABLE awards (
-    award_id SERIAL,
+    award_id SERIAL PRIMARY KEY,
     prize_name VARCHAR(100) NOT NULL,
-    award_year INTEGER NOT NULL,
-    award_type award_type_enum NOT NULL,
-    artist_id INTEGER,
-    song_id INTEGER,
+    award_year INT NOT NULL,
+    award_type award_type NOT NULL,
+    artist_id INT,
+    song_id INT,
+    album_id INT,
     extra_info JSONB,
 
-    CONSTRAINT pk_awards PRIMARY KEY (award_id),
-    CONSTRAINT fk_award_artist
-        FOREIGN KEY (artist_id)
-        REFERENCES artists (artist_id),
-    CONSTRAINT fk_award_song
-        FOREIGN KEY (song_id)
-        REFERENCES songs (song_id),
+    CONSTRAINT fk_award_artist FOREIGN KEY (artist_id)
+        REFERENCES artists(artist_id),
+
+    CONSTRAINT fk_award_song FOREIGN KEY (song_id)
+        REFERENCES songs(song_id),
+
+    CONSTRAINT fk_award_album FOREIGN KEY (album_id)
+        REFERENCES albums(album_id),
+
     CONSTRAINT chk_award_target CHECK (
-        (award_type = 'Artist' AND artist_id IS NOT NULL AND song_id IS NULL) OR
-        (award_type = 'Song' AND song_id IS NOT NULL AND artist_id IS NULL) OR
-        (award_type = 'Collaboration' AND artist_id IS NOT NULL AND song_id IS NOT NULL)
+        (award_type = 'Artist' AND artist_id IS NOT NULL AND song_id IS NULL AND album_id IS NULL) OR
+        (award_type = 'Song' AND song_id IS NOT NULL AND artist_id IS NULL AND album_id IS NULL) OR
+        (award_type = 'Album' AND album_id IS NOT NULL AND artist_id IS NULL AND song_id IS NULL) OR
+        (award_type = 'Collaboration' AND artist_id IS NOT NULL AND song_id IS NOT NULL AND album_id IS NULL)
     )
 );
+
 
 
 -- ==============================

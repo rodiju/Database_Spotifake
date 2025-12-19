@@ -2,8 +2,8 @@
 -- 5.1. Create Database
 -- ==============================
 
-CREATE DATABASE IF NOT EXISTS SpotiFake;
-USE SpotiFake;
+CREATE DATABASE IF NOT EXISTS Spotifake;
+USE Spotifake;
 
 -- ==============================
 -- 5.2. Reset Tables
@@ -89,20 +89,31 @@ CREATE TABLE IF NOT EXISTS Awards (
     AwardID INT UNSIGNED AUTO_INCREMENT,
     PrizeName VARCHAR(100) NOT NULL,
     AwardYear YEAR NOT NULL,
-    AwardType ENUM('Artist', 'Song', 'Collaboration') NOT NULL,
+    AwardType ENUM('Artist', 'Song', 'Album', 'Collaboration') NOT NULL,
     ArtistID INT UNSIGNED,
     SongID INT UNSIGNED,
+    AlbumID INT UNSIGNED,
     ExtraInfo JSON,
 
     CONSTRAINT pkAwards PRIMARY KEY (AwardID),
-    CONSTRAINT fkAwardArtist FOREIGN KEY (ArtistID) REFERENCES Artists(ArtistID),
-    CONSTRAINT fkAwardSong FOREIGN KEY (SongID) REFERENCES Songs(SongID),
+
+    CONSTRAINT fkAwardArtist FOREIGN KEY (ArtistID)
+        REFERENCES Artists(ArtistID),
+
+    CONSTRAINT fkAwardSong FOREIGN KEY (SongID)
+        REFERENCES Songs(SongID),
+
+    CONSTRAINT fkAwardAlbum FOREIGN KEY (AlbumID)
+        REFERENCES Albums(AlbumID),
+
     CONSTRAINT chkAwardTarget CHECK (
-        (AwardType = 'Artist' AND ArtistID IS NOT NULL AND SongID IS NULL) OR
-        (AwardType = 'Song' AND SongID IS NOT NULL AND ArtistID IS NULL) OR
-        (AwardType = 'Collaboration' AND ArtistID IS NOT NULL AND SongID IS NOT NULL)
+        (AwardType = 'Artist' AND ArtistID IS NOT NULL AND SongID IS NULL AND AlbumID IS NULL) OR
+        (AwardType = 'Song' AND SongID IS NOT NULL AND ArtistID IS NULL AND AlbumID IS NULL) OR
+        (AwardType = 'Album' AND AlbumID IS NOT NULL AND ArtistID IS NULL AND SongID IS NULL) OR
+        (AwardType = 'Collaboration' AND ArtistID IS NOT NULL AND SongID IS NOT NULL AND AlbumID IS NULL)
     )
 ) ENGINE=InnoDB;
+
 
 
 -- 3. Alter tables
