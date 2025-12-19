@@ -4,3 +4,8 @@
 CREATE TABLE SocialMediaAccounts (ProfileName varchar (255), Mastodon boolean, Peertube boolean, PixelFed boolean);
  DROP TABLE SocialMediaAccounts;
  SHOW TABLES;
+ALTER TABLE Albums ADD PRIMARY KEY (AlbumID);
+ALTER TABLE genres ADD PRIMARY KEY (GenreID);
+ALTER TABLE albums ADD CONSTRAINT fk_AlbumGenre FOREIGN KEY (GenreID) REFERENCES Genres(GenreID);
+ CREATE INDEX idx_artistsName ON Artists (StageName);
+ SHOW INDEX FROM Artists;
