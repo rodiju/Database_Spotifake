@@ -1,0 +1,257 @@
+-- ==============================
+-- 2.1 CREATE DATABASE
+-- ==============================
+
+CREATE DATABASE spotifake;
+
+-- ==============================
+-- 2.2 DROP DATABASE
+-- ==============================
+
+USE Spotifake;
+DROP spotyfake;
+
+-- ==============================
+-- 2.3. CREATE TABLE
+-- ==============================
+
+CREATE TABLE albumns (AlbumID int, Title varchar(255), YearRelease year, Artist VARCHAR(255), GenreID int , Cover blob);
+show tables;
+CREATE TABLE IF NOT EXISTS Artists (ArtistID INT UNSIGNED AUTO_INCREMENT,StageName VARCHAR(100) NOT NULL,RealName VARCHAR(150), BirthDate DATE,
+PhoneNumber CHAR(15),GenreID TINYINT UNSIGNED,Nacionality ENUM('ES', 'AR', 'MX','CL','CO','US','OTHER') DEFAULT 'OTHER');
+CREATE TABLE SocialMediaAccounts (ProfileName varchar (255), Mastodon boolean, Peertube boolean, PixelFed boolean);
+DESCRIBE Albums;
+DESCRIBE SocialMediaAccounts;
+
+-- ==============================
+-- 2.4. DROP TABLE
+-- ==============================
+
+DROP TABLE SocialMediaAccounts;
+SHOW TABLES;
+
+-- ==============================
+-- 2.5. ALTER TABLE
+-- ==============================
+
+ALTER TABLE Albums ADD COLUMN Laber VARCHAR(100) AFTER Artist;
+DESCRIBE Albums;
+ALTER TABLE Albums DROP COLUMN Label;
+-- 2.6.CONSTRAINTS
+ALTER TABLE genres ADD PRIMARY KEY (GenreID);
+ALTER TABLE albums ADD CONSTRAINT fk_AlbumGenre FOREIGN KEY (GenreID) REFERENCES Genres(GenreID);
+
+-- ==============================
+-- 2.7. NOT NULL
+-- ==============================
+
+ALTER TABLE MODIFY COLUMN StageName VARCHAR (100) NOT NULL;
+
+-- ==============================
+-- 2.8. UNIQUE
+-- ==============================
+
+Alter TABLE Genres ADD CONSTRAINT UniqueGenreName UNIQUE(GenreName);
+
+-- ==============================
+-- 2.9. Primary Key COMMENT
+-- ==============================
+DESCRIBE Albums;
+ALTER TABLE Albums ADD PRIMARY KEY (AlbumID);
+
+-- ==============================
+-- 2.10. Foreign Key
+-- ==============================
+
+ALTER TABLE Albums
+ADD CONSTRAINT fkAlbumArtist 
+FOREIGN KEY (ArtistID) 
+REFERENCES Artists(ArtistID)
+ON DELETE CASCADE;
+
+-- ==============================
+-- 2.11 Check
+-- ==============================
+
+ALTER TABLE Albums
+ADD CONSTRAINT CheckYear
+CHECK (ReleaseYear >= 1900 AND ReleaseYear <= 2100);
+
+-- ==============================
+-- 2.13.CREATE INDEX
+-- ==============================
+
+CREATE INDEX idx_artistsName ON Artists (StageName);
+SHOW INDEX FROM Artists;
+
+-- ==============================
+-- 2.14. AUTO INCREMENT
+-- ==============================
+
+ALTER TABLE Albums MODIFY AlbumID INT NOT NULL AUTO_INCREMENT;
+ALTER TABLE Albums AUTO_INCREMENT=1000;
+-- 2.15. DATES
+ALTER TABLE Albums ADD CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+-- ==============================
+-- 2.16. VIEWS
+-- ==============================
+
+CREATE VIEW artistBDAY AS SELECT RealName, PhoneNumber FROM Artists;
+ALTER VIEW ArtistBDAY AS SELECT RealName, PhoneNumber, BirthDate FROM Artists;
+DROP VIEW ArtistBDAY;
+
+-- ==============================
+-- 5.1. Create Database with conditional
+-- ==============================
+
+CREATE DATABASE IF NOT EXISTS Spotifake;
+USE Spotifake;
+
+-- ==============================
+-- 5.2. Reset Tables
+-- ==============================
+
+DROP TABLE IF EXISTS Collaborations CASCADE;
+DROP TABLE IF EXISTS Songs CASCADE;
+DROP TABLE IF EXISTS Albums CASCADE;
+DROP TABLE IF EXISTS Artists CASCADE;
+DROP TABLE IF EXISTS Genres CASCADE;
+DROP TABLE IF EXISTS Awards CASCADE;
+
+-- ==============================
+-- 5.3. Create Tables
+-- ==============================
+
+-- 5.3.1 Genres
+CREATE TABLE IF NOT EXISTS Genres (
+    GenreID TINYINT UNSIGNED AUTO_INCREMENT,
+    GenreName VARCHAR(50) NOT NULL,
+    SubGenre VARCHAR(50),
+    
+    CONSTRAINT pkGenres PRIMARY KEY (GenreID),
+    CONSTRAINT unqGenreName UNIQUE (GenreName)
+) ENGINE=InnoDB;
+
+-- 5.3.2 Artists
+CREATE TABLE IF NOT EXISTS Artists (
+    ArtistID INT UNSIGNED AUTO_INCREMENT,
+    ArtistName VARCHAR(100) NOT NULL,
+    RealName VARCHAR(150),
+    BirthDate DATE,
+    PhoneNumber CHAR(15),
+    Nacionality ENUM('ES', 'AR', 'MX','CL','CO','US','OTHER') DEFAULT 'OTHER',
+    
+    CONSTRAINT pkArtists PRIMARY KEY (ArtistID)
+) ENGINE=InnoDB;
+
+-- 5.3.3 Albums
+CREATE TABLE IF NOT EXISTS Albums (
+    AlbumID INT UNSIGNED AUTO_INCREMENT,
+    Title VARCHAR(150) NOT NULL,
+    ReleaseYear YEAR,
+    ArtistID INT UNSIGNED,
+    GenreID TINYINT UNSIGNED,
+    Cover BLOB,
+    AlbumFormat SET('CD', 'Vinyl', 'Digital', 'Cassette') NOT NULL DEFAULT 'Digital',
+
+    CONSTRAINT pkAlbums PRIMARY KEY (AlbumID),
+    CONSTRAINT fkAlbumGenre FOREIGN KEY (GenreID) REFERENCES Genres(GenreID)
+    
+) ENGINE=InnoDB;
+
+-- 5.3.4 Songs
+CREATE TABLE IF NOT EXISTS Songs (
+    SongID INT UNSIGNED AUTO_INCREMENT,
+    Title VARCHAR(150) NOT NULL,
+    GenreID TINYINT UNSIGNED,
+    ReleaseYear YEAR,
+    ArtistID INT UNSIGNED,
+    AlbumID INT UNSIGNED,
+    AudioFile BLOB,
+
+    CONSTRAINT pkSongs PRIMARY KEY (SongID),
+    CONSTRAINT fkSongGenre FOREIGN KEY (GenreID) REFERENCES Genres(GenreID),
+    CONSTRAINT fkSongArtist FOREIGN KEY (ArtistID) REFERENCES Artists(ArtistID),
+    CONSTRAINT fkSongAlbum FOREIGN KEY (AlbumID) REFERENCES Albums(AlbumID)
+) ENGINE=InnoDB;
+
+-- 5.3.5 Collaborations
+CREATE TABLE IF NOT EXISTS Collaborations (
+    ArtistID INT UNSIGNED,
+    SongID INT UNSIGNED,
+    Role ENUM('Main', 'Featured') DEFAULT 'Main',
+
+    CONSTRAINT pkArtistSong PRIMARY KEY (ArtistID, SongID),
+    CONSTRAINT fkCollabArtist FOREIGN KEY (ArtistID) REFERENCES Artists(ArtistID) ON DELETE CASCADE,
+    CONSTRAINT fkCollabSong FOREIGN KEY (SongID) REFERENCES Songs(SongID) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- 5.3.6 Awards 
+CREATE TABLE IF NOT EXISTS Awards (
+    AwardID INT UNSIGNED AUTO_INCREMENT,
+    PrizeName VARCHAR(100) NOT NULL,
+    AwardYear YEAR NOT NULL,
+    AwardType ENUM('Artist', 'Song', 'Album', 'Collaboration') NOT NULL,
+    ArtistID INT UNSIGNED,
+    SongID INT UNSIGNED,
+    AlbumID INT UNSIGNED,
+    ExtraInfo JSON,
+
+    CONSTRAINT pkAwards PRIMARY KEY (AwardID),
+
+    CONSTRAINT fkAwardArtist FOREIGN KEY (ArtistID)
+        REFERENCES Artists(ArtistID),
+
+    CONSTRAINT fkAwardSong FOREIGN KEY (SongID)
+        REFERENCES Songs(SongID),
+
+    CONSTRAINT fkAwardAlbum FOREIGN KEY (AlbumID)
+        REFERENCES Albums(AlbumID),
+
+    CONSTRAINT chkAwardTarget CHECK (
+        (AwardType = 'Artist' AND ArtistID IS NOT NULL AND SongID IS NULL AND AlbumID IS NULL) OR
+        (AwardType = 'Song' AND SongID IS NOT NULL AND ArtistID IS NULL AND AlbumID IS NULL) OR
+        (AwardType = 'Album' AND AlbumID IS NOT NULL AND ArtistID IS NULL AND SongID IS NULL) OR
+        (AwardType = 'Collaboration' AND ArtistID IS NOT NULL AND SongID IS NOT NULL AND AlbumID IS NULL)
+    )
+) ENGINE=InnoDB;
+
+
+-- ==============================
+-- 5.4. Example Inserts
+-- ==============================
+
+-- Genres
+INSERT INTO Genres (GenreName, SubGenre) VALUES 
+('Pop','Dance Pop'),
+('Rock','Alternative');
+
+-- Artists
+INSERT INTO Artists (ArtistName, RealName, BirthDate, PhoneNumber) VALUES
+('Adele','Adele Laurie Blue Adkins','1988-05-05','+441234567890'),
+('Coldplay',NULL,'1997-03-10','+44111222333');
+
+-- Albums
+INSERT INTO Albums (Title, ReleaseYear, ArtistID, GenreID, Format) VALUES
+('25',2015,1,1,'CD,Digital'),
+('Parachutes',2000,2,2,'CD,Digital');
+
+-- Songs
+INSERT INTO Songs (Title, GenreID, ReleaseYear, ArtistID, AlbumID) VALUES
+('Hello',1,2015,1,1),
+('Yellow',2,2000,2,2);
+
+-- Collaborations
+INSERT INTO Collaborations (ArtistID, SongID, Role) VALUES
+(1,1,'Main'),
+(2,2,'Main');
+
+-- Awards
+INSERT INTO Awards (PrizeName, AwardYear, AwardType, ArtistID, ExtraInfo) VALUES
+('Grammy Award',2016,'Artist',1, JSON_OBJECT(
+        'Category','Best Pop Vocal Album',
+        'Location','Los Angeles',
+        'Notes','Awarded for album 25'
+    ));
+
