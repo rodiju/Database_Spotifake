@@ -1,5 +1,5 @@
 -- ==============================
--- 1. Create Database
+-- 4.1. Create Database
 -- ==============================
 
 CREATE DATABASE spotifake;
@@ -8,7 +8,7 @@ CREATE DATABASE spotifake;
 
 
 -- ==============================
--- 2. Reset Tables
+-- 4.2. Reset Tables
 -- ==============================
 
 DROP TABLE IF EXISTS collaborations CASCADE;
@@ -24,7 +24,7 @@ DROP TYPE IF EXISTS collaboration_role_enum;
 
 
 -- ==============================
--- 3. Custom Types (ENUMs)
+-- 4.3. Custom Types (ENUMs)
 -- ==============================
 
 CREATE TYPE nationality_enum AS ENUM (
@@ -41,10 +41,10 @@ CREATE TYPE collaboration_role_enum AS ENUM (
 
 
 -- ==============================
--- 4. Create Tables
+-- 4.3. Create Tables
 -- ==============================
 
--- 4.1 Genres
+-- 4.3.1 Genres
 CREATE TABLE genres (
     genre_id SMALLSERIAL,
     genre_name VARCHAR(50) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE genres (
 );
 
 
--- 4.2 Artists
+-- 5.4.2 Artists
 CREATE TABLE artists (
     artist_id SERIAL,
     stage_name VARCHAR(100) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE artists (
 );
 
 
--- 4.3 Albums
+-- 5.4.3 Albums
 CREATE TABLE albums (
     album_id SERIAL,
     title VARCHAR(150) NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE songs (
 );
 
 
--- 4.5 Collaborations (many-to-many)
+-- 4.5 Collaborations 
 CREATE TABLE collaborations (
     artist_id INTEGER,
     song_id INTEGER,

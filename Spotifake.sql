@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS Awards (
 ) ENGINE=InnoDB;
 
 
--- 5.3.7 Alter tables
+-- 3. Alter tables
 ALTER TABLE Albums
 ADD CONSTRAINT fkAlbumArtist 
 FOREIGN KEY (ArtistID) 
@@ -129,7 +129,7 @@ INSERT INTO Genres (GenreName, SubGenre) VALUES
 ('Rock','Alternative');
 
 -- Artists
-INSERT INTO Artists (StageName, RealName, BirthDate, PhoneNumber, GenreID) VALUES
+INSERT INTO Artists (ArtistName, RealName, BirthDate, PhoneNumber, GenreID) VALUES
 ('Adele','Adele Laurie Blue Adkins','1988-05-05','+441234567890',1),
 ('Coldplay',NULL,'1997-03-10','+44111222333',2);
 
