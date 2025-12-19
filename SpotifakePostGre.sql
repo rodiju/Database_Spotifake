@@ -167,10 +167,10 @@ INSERT INTO genres (genre_name, sub_genre) VALUES
 ('Rock', 'Alternative');
 
 -- Artists
-INSERT INTO artists (stage_name, real_name, birth_date, phone_number, genre_id)
+INSERT INTO artists (stage_name, real_name, birth_date, phone_number)
 VALUES
-('Adele', 'Adele Laurie Blue Adkins', '1988-05-05', '+441234567890', 1),
-('Coldplay', NULL, '1997-03-10', '+44111222333', 2);
+('Adele', 'Adele Laurie Blue Adkins', '1988-05-05', '+441234567890'),
+('Coldplay', NULL, '1997-03-10', '+44111222333');
 
 -- Albums
 INSERT INTO albums (title, release_year, artist_id, genre_id, format)

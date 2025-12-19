@@ -126,9 +126,9 @@ INSERT INTO Genres (GenreName, SubGenre) VALUES
 ('Rock','Alternative');
 
 -- Artists
-INSERT INTO Artists (ArtistName, RealName, BirthDate, PhoneNumber, GenreID) VALUES
-('Adele','Adele Laurie Blue Adkins','1988-05-05','+441234567890',1),
-('Coldplay',NULL,'1997-03-10','+44111222333',2);
+INSERT INTO Artists (ArtistName, RealName, BirthDate, PhoneNumber) VALUES
+('Adele','Adele Laurie Blue Adkins','1988-05-05','+441234567890'),
+('Coldplay',NULL,'1997-03-10','+44111222333');
 
 -- Albums
 INSERT INTO Albums (Title, ReleaseYear, ArtistID, GenreID, Format) VALUES
