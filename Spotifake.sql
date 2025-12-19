@@ -1,28 +1,26 @@
 -- ==============================
--- 1. Create Database
--- ==============================
-CREATE DATABASE IF NOT EXISTS SpotyFake;
-USE SpotyFake;
-
--- ==============================
--- 2. Reset Tables
--- ==============================
-SET FOREIGN_KEY_CHECKS = 0;
-
-DROP TABLE IF EXISTS Collaborations;
-DROP TABLE IF EXISTS Songs;
-DROP TABLE IF EXISTS Albums;
-DROP TABLE IF EXISTS Artists;
-DROP TABLE IF EXISTS Genres;
-DROP TABLE IF EXISTS Awards;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
--- ==============================
--- 3. Create Tables
+-- 5.1. Create Database
 -- ==============================
 
--- 3.1 Genres
+CREATE DATABASE IF NOT EXISTS SpotiFake;
+USE SpotiFake;
+
+-- ==============================
+-- 5.2. Reset Tables
+-- ==============================
+
+DROP TABLE IF EXISTS Collaborations CASCADE;
+DROP TABLE IF EXISTS Songs CASCADE;
+DROP TABLE IF EXISTS Albums CASCADE;
+DROP TABLE IF EXISTS Artists CASCADE;
+DROP TABLE IF EXISTS Genres CASCADE;
+DROP TABLE IF EXISTS Awards CASCADE;
+
+-- ==============================
+-- 5.3. Create Tables
+-- ==============================
+
+-- 5.3.1 Genres
 CREATE TABLE IF NOT EXISTS Genres (
     GenreID TINYINT UNSIGNED AUTO_INCREMENT,
     GenreName VARCHAR(50) NOT NULL,
@@ -32,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Genres (
     CONSTRAINT unqGenreName UNIQUE (GenreName)
 ) ENGINE=InnoDB;
 
--- 3.2 Artists
+-- 5.3.2 Artists
 CREATE TABLE IF NOT EXISTS Artists (
     ArtistID INT UNSIGNED AUTO_INCREMENT,
     StageName VARCHAR(100) NOT NULL,
@@ -47,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Artists (
         REFERENCES Genres(GenreID)
 ) ENGINE=InnoDB;
 
--- 3.3 Albums
+-- 5.3.3 Albums
 CREATE TABLE IF NOT EXISTS Albums (
     AlbumID INT UNSIGNED AUTO_INCREMENT,
     Title VARCHAR(150) NOT NULL,
@@ -62,7 +60,7 @@ CREATE TABLE IF NOT EXISTS Albums (
     
 ) ENGINE=InnoDB;
 
--- 3.4 Songs
+-- 5.3.4 Songs
 CREATE TABLE IF NOT EXISTS Songs (
     SongID INT UNSIGNED AUTO_INCREMENT,
     Title VARCHAR(150) NOT NULL,
@@ -78,7 +76,7 @@ CREATE TABLE IF NOT EXISTS Songs (
     CONSTRAINT fkSongAlbum FOREIGN KEY (AlbumID) REFERENCES Albums(AlbumID)
 ) ENGINE=InnoDB;
 
--- 3.5 Collaborations (Artist-Song many-to-many)
+-- 5.3.5 Collaborations
 CREATE TABLE IF NOT EXISTS Collaborations (
     ArtistID INT UNSIGNED,
     SongID INT UNSIGNED,
@@ -89,7 +87,7 @@ CREATE TABLE IF NOT EXISTS Collaborations (
     CONSTRAINT fkCollabSong FOREIGN KEY (SongID) REFERENCES Songs(SongID) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 3.6 Awards 
+-- 5.3.6 Awards 
 CREATE TABLE IF NOT EXISTS Awards (
     AwardID INT UNSIGNED AUTO_INCREMENT,
     PrizeName VARCHAR(100) NOT NULL,
@@ -110,7 +108,7 @@ CREATE TABLE IF NOT EXISTS Awards (
 ) ENGINE=InnoDB;
 
 
--- 3.7 Alter tables
+-- 5.3.7 Alter tables
 ALTER TABLE Albums
 ADD CONSTRAINT fkAlbumArtist 
 FOREIGN KEY (ArtistID) 
@@ -120,8 +118,9 @@ ON DELETE CASCADE;
 ALTER TABLE Albums
 ADD CONSTRAINT CheckYear
 CHECK (ReleaseYear >= 1900 AND ReleaseYear <= 2100);
+
 -- ==============================
--- 4. Example Inserts
+-- 5.4. Example Inserts
 -- ==============================
 
 -- Genres
