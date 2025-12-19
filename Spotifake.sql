@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS Albums (
     ArtistID INT UNSIGNED,
     GenreID TINYINT UNSIGNED,
     Cover BLOB,
-    Format SET('CD', 'Vinyl', 'Digital', 'Cassette') NOT NULL DEFAULT 'Digital',
+    AlbumFormat SET('CD', 'Vinyl', 'Digital', 'Cassette') NOT NULL DEFAULT 'Digital',
 
     CONSTRAINT pkAlbums PRIMARY KEY (AlbumID),
     CONSTRAINT fkAlbumGenre FOREIGN KEY (GenreID) REFERENCES Genres(GenreID)

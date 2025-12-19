@@ -77,7 +77,7 @@ CREATE TABLE albums (
     artist_id INTEGER,
     genre_id SMALLINT,
     cover BYTEA,
-    format TEXT[] NOT NULL DEFAULT ARRAY['Digital'],
+    album_format TEXT[] NOT NULL DEFAULT ARRAY['Digital'],
 
     CONSTRAINT pk_albums PRIMARY KEY (album_id),
     CONSTRAINT fk_album_artist
@@ -160,7 +160,6 @@ CREATE TABLE awards (
         (award_type = 'Collaboration' AND artist_id IS NOT NULL AND song_id IS NOT NULL AND album_id IS NULL)
     )
 );
-
 
 
 -- ==============================
