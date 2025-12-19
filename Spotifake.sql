@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS Awards (
 
 
 
--- 3. Alter tables
+-- 2.5. Alter tables
 ALTER TABLE Albums
 ADD CONSTRAINT fkAlbumArtist 
 FOREIGN KEY (ArtistID) 

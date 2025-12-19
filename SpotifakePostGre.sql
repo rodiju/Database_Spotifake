@@ -1,5 +1,5 @@
 -- ==============================
--- 4.1. Create Database
+-- 5.1. Create Database
 -- ==============================
 
 CREATE DATABASE spotifake;
@@ -8,7 +8,7 @@ CREATE DATABASE spotifake;
 
 
 -- ==============================
--- 4.2. Reset Tables
+-- 5.2. Reset Tables
 -- ==============================
 
 DROP TABLE IF EXISTS collaborations CASCADE;
@@ -24,7 +24,7 @@ DROP TYPE IF EXISTS collaboration_role_enum;
 
 
 -- ==============================
--- 4.3. Custom Types (ENUMs)
+-- 5.3. Custom Types (ENUMs)
 -- ==============================
 
 CREATE TYPE nationality_enum AS ENUM (
@@ -42,10 +42,10 @@ CREATE TYPE collaboration_role_enum AS ENUM (
 ALTER TYPE award_type ADD VALUE 'Album';
 
 -- ==============================
--- 4.3. Create Tables
+-- 5.3. Create Tables
 -- ==============================
 
--- 4.3.1 Genres
+-- 5.3.1 Genres
 CREATE TABLE genres (
     genre_id SMALLSERIAL,
     genre_name VARCHAR(50) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE genres (
 );
 
 
--- 5.4.2 Artists
+-- 5.3.2 Artists
 CREATE TABLE artists (
     artist_id SERIAL,
     stage_name VARCHAR(100) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE artists (
 );
 
 
--- 5.4.3 Albums
+-- 5.3.3 Albums
 CREATE TABLE albums (
     album_id SERIAL,
     title VARCHAR(150) NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE albums (
 );
 
 
--- 4.4 Songs
+-- 5.3.4 Songs
 CREATE TABLE songs (
     song_id SERIAL,
     title VARCHAR(150) NOT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE songs (
 );
 
 
--- 4.5 Collaborations 
+-- 5.3.5 Collaborations 
 CREATE TABLE collaborations (
     artist_id INTEGER,
     song_id INTEGER,
@@ -133,7 +133,7 @@ CREATE TABLE collaborations (
 );
 
 
--- 4.6 Awards
+-- 5.3.6 Awards
 CREATE TABLE awards (
     award_id SERIAL PRIMARY KEY,
     prize_name VARCHAR(100) NOT NULL,
@@ -163,7 +163,7 @@ CREATE TABLE awards (
 
 
 -- ==============================
--- 5. Example Inserts
+-- 5.4. Example Inserts
 -- ==============================
 
 -- Genres
@@ -174,7 +174,7 @@ INSERT INTO genres (genre_name, sub_genre) VALUES
 -- Artists
 INSERT INTO artists (stage_name, real_name, birth_date, phone_number)
 VALUES
-('Adele', 'Adele Laurie Blue Adkins', '1988-05-05', '+441234567890'),
+('Adele', 'Adele Laurie Blue Adkins', '1988-05-05', '+541234567890'),
 ('Coldplay', NULL, '1997-03-10', '+44111222333');
 
 -- Albums
