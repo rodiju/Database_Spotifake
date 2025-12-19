@@ -62,13 +62,9 @@ CREATE TABLE artists (
     real_name VARCHAR(150),
     birth_date DATE,
     phone_number CHAR(15),
-    genre_id SMALLINT,
     nationality nationality_enum DEFAULT 'OTHER',
 
-    CONSTRAINT pk_artists PRIMARY KEY (artist_id),
-    CONSTRAINT fk_artists_genre
-        FOREIGN KEY (genre_id)
-        REFERENCES genres (genre_id)
+    CONSTRAINT pk_artists PRIMARY KEY (artist_id)
 );
 
 
