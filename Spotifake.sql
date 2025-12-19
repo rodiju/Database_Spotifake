@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS Genres (
 -- 5.3.2 Artists
 CREATE TABLE IF NOT EXISTS Artists (
     ArtistID INT UNSIGNED AUTO_INCREMENT,
-    StageName VARCHAR(100) NOT NULL,
+    ArtistName VARCHAR(100) NOT NULL,
     RealName VARCHAR(150),
     BirthDate DATE,
     PhoneNumber CHAR(15),
