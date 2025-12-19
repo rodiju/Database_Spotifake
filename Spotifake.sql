@@ -37,12 +37,9 @@ CREATE TABLE IF NOT EXISTS Artists (
     RealName VARCHAR(150),
     BirthDate DATE,
     PhoneNumber CHAR(15),
-    GenreID TINYINT UNSIGNED,
     Nacionality ENUM('ES', 'AR', 'MX','CL','CO','US','OTHER') DEFAULT 'OTHER',
     
-    CONSTRAINT pkArtists PRIMARY KEY (ArtistID),
-    CONSTRAINT fkArtistsGenre FOREIGN KEY (GenreID)
-        REFERENCES Genres(GenreID)
+    CONSTRAINT pkArtists PRIMARY KEY (ArtistID)
 ) ENGINE=InnoDB;
 
 -- 5.3.3 Albums
